@@ -2,24 +2,31 @@ import datetime
 import random
 
 def readme_hazirla():
-    # Saat dilimini ayarlamak istersen +3 ekleyebilirsin, şu an UTC basıyor olabilir
     su_an = datetime.datetime.now().strftime("%d/%m/%Y %H:%M:%S")
     sozler = [
         "Kod yazmak, sessizce şiir yazmaktır. 💻",
-        "Hata ayıklamak, bir dedektiflik hikayesidir. 🔍",
         "Python ile dünyayı otomatize etmeye devam! 🚀",
-        "openl32dll sistemi aktif ve stabil. ✅"
+        "openl32dll sistemi aktif ve stabil. ✅",
+        "Sistemler uyur, kodlar asla! 🛠️"
     ]
     secilen_soz = random.choice(sozler)
 
-    # Linkleri Markdown formatında (parantezli) değil, doğrudan HTML <img> olarak koyalım
-    # Bu yöntem GitHub'da daha stabil çalışır
     icerik = f"""
 # Selam! Ben openl32dll 👋
+
+<p align="left">
+  <img src="https://komarev.com/ghpvc/?username=openl32dll&color=blue&style=flat-square" alt="Ziyaretçi Sayısı" />
+</p>
 
 ### 🤖 Otomatik Profil Durumu
 - 🕒 **Son Senkronizasyon:** {su_an}
 - 💬 **Günün Sözü:** {secilen_soz}
+
+### 🛠️ Kullandığım Teknolojiler
+![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)
+![Git](https://img.shields.io/badge/git-%23F05033.svg?style=for-the-badge&logo=git&logoColor=white)
+![Windows](https://img.shields.io/badge/Windows-0078D6?style=for-the-badge&logo=windows&logoColor=white)
+![VS Code](https://img.shields.io/badge/Visual_Studio_Code-00788C?style=for-the-badge&logo=visual%20studio%20code&logoColor=white)
 
 ### 📊 GitHub İstatistiklerim
 <img src="https://github-readme-stats.vercel.app/api?username=openl32dll&show_icons=true&theme=tokyonight" alt="Stats" />
