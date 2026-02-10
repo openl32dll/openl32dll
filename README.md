@@ -1,16 +1,13 @@
-## Hi there 👋
 
-<!--
-**openl32dll/openl32dll** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
+# Selam! Ben openl32dll 👋
 
-Here are some ideas to get you started:
+### 🤖 Otomatik Profil Durumu
+Bu alan her saat başı GitHub Actions tarafından güncellenmektedir.
 
-- 🔭 I’m currently working on ...
-- 🌱 I’m currently learning ...
-- 👯 I’m looking to collaborate on ...
-- 🤔 I’m looking for help with ...
-- 💬 Ask me about ...
-- 📫 How to reach me: ...
-- 😄 Pronouns: ...
-- ⚡ Fun fact: ...
--->
+- 🕒 **Son Senkronizasyon:** 10/02/2026 17:49:58
+- 🌍 **Konum:** Türkiye
+- 🛠️ **Kullandığım Araçlar:** Python, GitHub Actions, VS Code
+- 💬 **Günün Sözü:** Kod yazmak, sessizce şiir yazmaktır. 💻
+
+---
+*Bu profil sayfası bir Python scripti tarafından otomatik olarak yönetilmektedir.*
