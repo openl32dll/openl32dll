@@ -2,14 +2,14 @@
 # Selam! Ben openl32dll 👋
 
 ### 🤖 Otomatik Profil Durumu
-- 🕒 **Son Senkronizasyon:** 10/02/2026 17:54:22
-- 💬 **Günün Sözü:** Kod yazmak, sessizce şiir yazmaktır. 💻
+- 🕒 **Son Senkronizasyon:** 10/02/2026 17:56:48
+- 💬 **Günün Sözü:** openl32dll sistemi aktif ve stabil. ✅
 
 ### 📊 GitHub İstatistiklerim
-![Stats](https://github-readme-stats.vercel.app/api?username=openl32dll&show_icons=true&theme=tokyonight)
+<img src="https://github-readme-stats.vercel.app/api?username=openl32dll&show_icons=true&theme=tokyonight" alt="Stats" />
 
 ### 🚀 Kullandığım Diller
-![Langs](https://github-readme-stats.vercel.app/api/top-langs/?username=openl32dll&layout=compact&theme=tokyonight)
+<img src="https://github-readme-stats.vercel.app/api/top-langs/?username=openl32dll&layout=compact&theme=tokyonight" alt="Langs" />
 
 ---
 *Bu profil sayfası bir Python scripti tarafından otomatik olarak yönetilmektedir.*
