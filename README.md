@@ -2,12 +2,14 @@
 # Selam! Ben openl32dll 👋
 
 ### 🤖 Otomatik Profil Durumu
-Bu alan her saat başı GitHub Actions tarafından güncellenmektedir.
-
-- 🕒 **Son Senkronizasyon:** 10/02/2026 17:49:58
-- 🌍 **Konum:** Türkiye
-- 🛠️ **Kullandığım Araçlar:** Python, GitHub Actions, VS Code
+- 🕒 **Son Senkronizasyon:** 10/02/2026 17:54:22
 - 💬 **Günün Sözü:** Kod yazmak, sessizce şiir yazmaktır. 💻
+
+### 📊 GitHub İstatistiklerim
+![Stats](https://github-readme-stats.vercel.app/api?username=openl32dll&show_icons=true&theme=tokyonight)
+
+### 🚀 Kullandığım Diller
+![Langs](https://github-readme-stats.vercel.app/api/top-langs/?username=openl32dll&layout=compact&theme=tokyonight)
 
 ---
 *Bu profil sayfası bir Python scripti tarafından otomatik olarak yönetilmektedir.*
