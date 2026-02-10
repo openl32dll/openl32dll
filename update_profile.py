@@ -2,15 +2,18 @@ import datetime
 import random
 
 def readme_hazirla():
+    # Saat dilimini ayarlamak istersen +3 ekleyebilirsin, şu an UTC basıyor olabilir
     su_an = datetime.datetime.now().strftime("%d/%m/%Y %H:%M:%S")
     sozler = [
         "Kod yazmak, sessizce şiir yazmaktır. 💻",
+        "Hata ayıklamak, bir dedektiflik hikayesidir. 🔍",
         "Python ile dünyayı otomatize etmeye devam! 🚀",
         "openl32dll sistemi aktif ve stabil. ✅"
     ]
     secilen_soz = random.choice(sozler)
 
-    # İstatistik kartlarını buraya ekledik ki Python bunları silmesin!
+    # Linkleri Markdown formatında (parantezli) değil, doğrudan HTML <img> olarak koyalım
+    # Bu yöntem GitHub'da daha stabil çalışır
     icerik = f"""
 # Selam! Ben openl32dll 👋
 
@@ -19,10 +22,10 @@ def readme_hazirla():
 - 💬 **Günün Sözü:** {secilen_soz}
 
 ### 📊 GitHub İstatistiklerim
-![Stats](https://github-readme-stats.vercel.app/api?username=openl32dll&show_icons=true&theme=tokyonight)
+<img src="https://github-readme-stats.vercel.app/api?username=openl32dll&show_icons=true&theme=tokyonight" alt="Stats" />
 
 ### 🚀 Kullandığım Diller
-![Langs](https://github-readme-stats.vercel.app/api/top-langs/?username=openl32dll&layout=compact&theme=tokyonight)
+<img src="https://github-readme-stats.vercel.app/api/top-langs/?username=openl32dll&layout=compact&theme=tokyonight" alt="Langs" />
 
 ---
 *Bu profil sayfası bir Python scripti tarafından otomatik olarak yönetilmektedir.*
