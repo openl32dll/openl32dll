@@ -6,8 +6,8 @@
 </p>
 
 ### 🤖 Otomatik Profil Durumu
-- 🕒 **Son Senkronizasyon:** 18/06/2026 15:43:47
-- 💬 **Günün Sözü:** Python ile dünyayı otomatize etmeye devam! 🚀
+- 🕒 **Son Senkronizasyon:** 18/06/2026 18:30:07
+- 💬 **Günün Sözü:** Sistemler uyur, kodlar asla! 🛠️
 
 ### 🛠️ Kullandığım Teknolojiler
 ![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)
