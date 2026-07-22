@@ -6,8 +6,8 @@
 </p>
 
 ### 🤖 Otomatik Profil Durumu
-- 🕒 **Son Senkronizasyon:** 22/07/2026 11:53:32
-- 💬 **Günün Sözü:** Kod yazmak, sessizce şiir yazmaktır. 💻
+- 🕒 **Son Senkronizasyon:** 22/07/2026 14:12:07
+- 💬 **Günün Sözü:** Sistemler uyur, kodlar asla! 🛠️
 
 ### 🛠️ Kullandığım Teknolojiler
 ![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)
