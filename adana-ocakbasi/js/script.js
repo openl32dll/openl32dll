@@ -1,61 +1,87 @@
-document.addEventListener('DOMContentLoaded', () => {
+/* Görsel yüklenemezse (örn. ağ engeli) zarif bir yer tutucuya düş. */
+function imgFallback(img, emoji) {
+  if (img.dataset.fallbackApplied) return;
+  img.dataset.fallbackApplied = "1";
+  img.onerror = null;
+  img.removeAttribute("src");
+  img.classList.add("img-fallback");
+  var span = document.createElement("span");
+  span.className = "img-fallback-icon";
+  span.textContent = emoji || "🍽️";
+  if (img.parentElement) {
+    img.parentElement.style.position = img.parentElement.style.position || "relative";
+    img.parentElement.appendChild(span);
+  }
+}
 
-  /* ---- Sticky header ---- */
-  const header = document.getElementById('header');
-  const onScroll = () => {
-    if (window.scrollY > 40) header.classList.add('scrolled');
-    else header.classList.remove('scrolled');
+document.addEventListener('DOMContentLoaded', function () {
+  "use strict";
 
-    backToTop.classList.toggle('show', window.scrollY > 500);
-  };
+  /* back-to-top visibility */
+  var backTop = document.getElementById('backTop');
+  function onScroll(){
+    backTop.classList.toggle('show', window.scrollY > 500);
+  }
   window.addEventListener('scroll', onScroll);
   onScroll();
+  backTop.addEventListener('click', function(){ window.scrollTo({top:0, behavior:'smooth'}); });
 
-  /* ---- Mobile nav toggle ---- */
-  const navToggle = document.getElementById('navToggle');
-  const nav = document.getElementById('nav');
-  navToggle.addEventListener('click', () => {
+  /* mobile nav */
+  var navToggle = document.getElementById('navToggle');
+  var nav = document.getElementById('nav');
+  navToggle.addEventListener('click', function(){
     nav.classList.toggle('open');
     navToggle.classList.toggle('open');
   });
-  nav.querySelectorAll('a').forEach(link => {
-    link.addEventListener('click', () => {
+  nav.querySelectorAll('a').forEach(function(a){
+    a.addEventListener('click', function(){
       nav.classList.remove('open');
       navToggle.classList.remove('open');
     });
   });
 
-  /* ---- Menu tabs ---- */
-  const tabs = document.querySelectorAll('.menu-tab');
-  const panels = document.querySelectorAll('.menu-panel');
-  tabs.forEach(tab => {
-    tab.addEventListener('click', () => {
-      tabs.forEach(t => t.classList.remove('active'));
-      panels.forEach(p => p.classList.remove('active'));
+  /* menu tabs */
+  var tabs = document.querySelectorAll('.menu-tab');
+  var panels = document.querySelectorAll('.menu-panel');
+  tabs.forEach(function(tab){
+    tab.addEventListener('click', function(){
+      tabs.forEach(function(t){ t.classList.remove('active'); });
+      panels.forEach(function(p){ p.classList.remove('active'); });
       tab.classList.add('active');
       document.getElementById(tab.dataset.target).classList.add('active');
+      document.getElementById('menu').scrollIntoView({behavior:'smooth', block:'start'});
     });
   });
 
-  /* ---- Reservation form ---- */
-  const form = document.getElementById('reservationForm');
-  const success = document.getElementById('formSuccess');
+  /* reservation form (demo only — no backend, wire this up to your own endpoint) */
+  var form = document.getElementById('reservationForm');
+  var success = document.getElementById('formSuccess');
   if (form) {
-    form.addEventListener('submit', (e) => {
+    form.addEventListener('submit', function(e){
       e.preventDefault();
       success.classList.add('show');
       form.reset();
-      setTimeout(() => success.classList.remove('show'), 6000);
+      setTimeout(function(){ success.classList.remove('show'); }, 6000);
     });
   }
 
-  /* ---- Back to top ---- */
-  const backToTop = document.getElementById('backToTop');
-  backToTop.addEventListener('click', () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  });
+  /* scroll reveal */
+  var reveals = document.querySelectorAll('.reveal');
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in');
+          io.unobserve(entry.target);
+        }
+      });
+    }, {threshold:.12});
+    reveals.forEach(function(el){ io.observe(el); });
+  } else {
+    reveals.forEach(function(el){ el.classList.add('in'); });
+  }
 
-  /* ---- Footer year ---- */
-  document.getElementById('year').textContent = new Date().getFullYear();
-
+  /* footer year */
+  var yearEl = document.getElementById('year');
+  if (yearEl) yearEl.textContent = new Date().getFullYear();
 });
