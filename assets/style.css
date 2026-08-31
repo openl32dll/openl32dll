@@ -299,6 +299,10 @@ code {
 
 .card-icon { font-size: 1.6rem; margin-bottom: 12px; }
 
+.service-card {
+  border-top: 3px solid var(--accent);
+}
+
 .card h3 {
   margin: 0 0 8px;
   font-size: 1.08rem;
