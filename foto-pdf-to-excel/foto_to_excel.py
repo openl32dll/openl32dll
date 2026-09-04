@@ -3,7 +3,13 @@
 Tek elle, tek komutla çalışan giriş betiği.
 
 Fotoğraf (PNG/JPG) veya PDF dosyalarındaki tabloları OCR ile okuyup Excel'e
-(.xlsx) aktarır — kurulum gerektirmeden doğrudan çalıştırılabilir.
+(.xlsx) aktarır.
+
+İlk çalıştırmadan önce bu klasörde bağımlılıkları kurmanız gerekir:
+    pip install -r requirements.txt
+(Windows'ta birden fazla Python kuruluysa: py -m pip install -r requirements.txt)
+
+Ayrıca Tesseract-OCR programının sisteme kurulu olması gerekir; bkz. README.md.
 
 Kullanım
 --------
@@ -17,7 +23,18 @@ Tüm seçenekler için:
 
 import sys
 
-from foto_pdf_to_excel.cli import main
+try:
+    from foto_pdf_to_excel.cli import main
+except ImportError as hata:
+    print(
+        f"[HATA] Gerekli bir Python paketi eksik ({hata.name}).\n"
+        "Bu klasörde önce bağımlılıkları kurmanız gerekiyor:\n\n"
+        "    pip install -r requirements.txt\n\n"
+        "Windows'ta birden fazla Python sürümü kuruluysa şunu deneyin:\n\n"
+        "    py -m pip install -r requirements.txt\n",
+        file=sys.stderr,
+    )
+    sys.exit(1)
 
 if __name__ == "__main__":
     sys.exit(main())
