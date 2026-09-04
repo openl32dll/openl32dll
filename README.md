@@ -6,8 +6,8 @@
 </p>
 
 ### 🤖 Otomatik Profil Durumu
-- 🕒 **Son Senkronizasyon:** 04/09/2026 23:53:22
-- 💬 **Günün Sözü:** Python ile dünyayı otomatize etmeye devam! 🚀
+- 🕒 **Son Senkronizasyon:** 04/09/2026 23:56:38
+- 💬 **Günün Sözü:** Sistemler uyur, kodlar asla! 🛠️
 
 ### 🛠️ Kullandığım Teknolojiler
 ![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)
@@ -20,6 +20,11 @@
 
 ### 🚀 Kullandığım Diller
 <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=openl32dll&layout=compact&theme=tokyonight" alt="Langs" />
+
+### 🎮 CS2 Discord Rich Presence
+Counter-Strike 2 oynarken Discord'da sadece "oynuyor" değil; hangi haritada,
+hangi modda (Rekabetçi/Premier, Yoldaş, Basit, Deathmatch, Silah Yarışı vb.)
+ve kaçıncı roundda olduğunu gösteren araç: [`cs2-discord-rpc/`](./cs2-discord-rpc)
 
 ---
 *Bu profil sayfası bir Python scripti tarafından otomatik olarak yönetilmektedir.*

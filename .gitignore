@@ -1,0 +1,9 @@
+__pycache__/
+*.pyc
+
+# Kişisel Discord Client ID'ni içerir, repoya gitmemeli.
+cs2-discord-rpc/config.json
+
+# Kendi eklediğin ham ekran görüntüleri (işlenmiş halleri assets/maps/'e yazılır).
+cs2-discord-rpc/assets/screenshots_raw/*
+!cs2-discord-rpc/assets/screenshots_raw/.gitkeep
