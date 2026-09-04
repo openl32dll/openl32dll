@@ -34,6 +34,11 @@ def readme_hazirla():
 ### 🚀 Kullandığım Diller
 <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=openl32dll&layout=compact&theme=tokyonight" alt="Langs" />
 
+### 🎮 CS2 Discord Rich Presence
+Counter-Strike 2 oynarken Discord'da sadece "oynuyor" değil; hangi haritada,
+hangi modda (Rekabetçi/Premier, Yoldaş, Basit, Deathmatch, Silah Yarışı vb.)
+ve kaçıncı roundda olduğunu gösteren araç: [`cs2-discord-rpc/`](./cs2-discord-rpc)
+
 ---
 *Bu profil sayfası bir Python scripti tarafından otomatik olarak yönetilmektedir.*
 """
