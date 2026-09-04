@@ -90,12 +90,26 @@ bu repo için üretilmiş basit ikonlardır (telif sorunu yaşamamak için).
   (`.../<branch-adı>/cs2-discord-rpc/assets/maps`) göre ayarlayabilirsin.
 - Elimizde ikonu olmayan bir harita gelirse (yeni çıkan bir harita ya da
   community server haritası) otomatik olarak `cs2_logo.png`'ye düşer.
-- Kendi görsellerini (gerçek harita ekran görüntüsü gibi) kullanmak
-  istersen: `assets/maps/<harita_kodu>.png` dosyasını kendi görselinle
-  değiştirmen yeterli — kod tarafında hiçbir şey değiştirmene gerek yok.
 - Yeni bir harita eklemek / ikonları yeniden üretmek istersen:
   `assets/generate_map_icons.py` script'ini (Pillow gerektirir) düzenleyip
   tekrar çalıştırabilirsin.
+
+### Gerçek ekran görüntüsü kullanmak istersen
+
+Valve'ın oyun içi ekran görüntülerini bu repoya hazır olarak koymuyoruz
+(telifli içerik). Ama **kendi aldığın** ekran görüntülerini kullanmak
+tamamen senin tercihin ve çok kolay:
+
+1. CS2'de bir maça gir, `F12` (Steam ekran görüntüsü) ile görüntü al.
+2. Görüntüyü `assets/screenshots_raw/<harita_kodu>.jpg` olarak kaydet
+   (ör. `assets/screenshots_raw/de_mirage.jpg`; geçerli harita kodları
+   yukarıdaki listede).
+3. `python assets/import_screenshots.py` çalıştır.
+
+Script, görüntüyü otomatik olarak 1024x576 (16:9) boyutuna ortalayarak
+kırpıp `assets/maps/<harita_kodu>.png` olarak kaydeder; `cs2_discord_rpc.py`
+tarafında hiçbir değişikliğe gerek kalmadan bu yeni görsel kullanılmaya
+başlar.
 
 ## Desteklenen modlar
 
