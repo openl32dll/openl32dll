@@ -135,10 +135,21 @@ bu repo için üretilmiş basit ikonlardır (telif sorunu yaşamamak için).
 - Script, GSI'dan gelen harita adını bu klasördeki dosya adlarıyla
   eşleştirip şu adresten görseli çekiyor:
   `https://raw.githubusercontent.com/openl32dll/openl32dll/main/cs2-discord-rpc/assets/maps/<harita>.png`
-  Bu adres, sadece bu değişiklik `main` dalına birleştikten (merge)
-  sonra çalışır; PR henüz birleşmediyse test için
-  `MAP_IMAGE_BASE_URL` ortam değişkenini kendi branch'ine
-  (`.../<branch-adı>/cs2-discord-rpc/assets/maps`) göre ayarlayabilirsin.
+
+  > ⚠️ **Bu adres sadece bu değişiklik `main` dalına birleştikten (merge)
+  > sonra çalışır.** Birleşmeden önce Discord'da büyük görsel yerine
+  > kırık görsel ("?") görürsün — metinler (harita/mod/round) yine de
+  > doğru çalışır, sadece resim eksik kalır. PR henüz birleşmediyse
+  > `config.json`'a şunu ekleyerek kendi branch'ini gösterebilirsin:
+  > ```json
+  > {
+  >   "discord_client_id": "...",
+  >   "map_image_base_url": "https://raw.githubusercontent.com/openl32dll/openl32dll/claude/discord-cs2-game-status-0dszmz/cs2-discord-rpc/assets/maps"
+  > }
+  > ```
+  > (`MAP_IMAGE_BASE_URL` ortam değişkeni olarak da ayarlanabilir.) PR
+  > `main`'e birleşince bu satırı config.json'dan silebilirsin, varsayılan
+  > yeniden geçerli olur.
 - Elimizde ikonu olmayan bir harita gelirse (yeni çıkan bir harita ya da
   community server haritası) otomatik olarak `cs2_logo.png`'ye düşer.
 - Yeni bir harita eklemek / ikonları yeniden üretmek istersen:

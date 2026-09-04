@@ -1,3 +1,4 @@
 {
-  "discord_client_id": "BURAYA_DISCORD_CLIENT_ID_YAZ"
+  "discord_client_id": "BURAYA_DISCORD_CLIENT_ID_YAZ",
+  "map_image_base_url": "https://raw.githubusercontent.com/openl32dll/openl32dll/main/cs2-discord-rpc/assets/maps"
 }

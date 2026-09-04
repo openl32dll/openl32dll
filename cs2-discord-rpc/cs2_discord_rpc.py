@@ -68,30 +68,41 @@ CONFIG_PATH = os.path.join(SCRIPT_DIR, "config.json")
 PLACEHOLDER_CLIENT_ID = "PUT_YOUR_DISCORD_CLIENT_ID_HERE"
 
 
-def load_client_id() -> str:
-    """Discord Client ID'sini önce ortam değişkeninden, yoksa yanındaki
-    config.json dosyasından okur.
+def _read_config_file() -> dict:
+    """`config.json` içeriğini okur (yoksa/bozuksa boş sözlük döner)."""
+    if not os.path.exists(CONFIG_PATH):
+        return {}
+    try:
+        with open(CONFIG_PATH, "r", encoding="utf-8") as f:
+            return json.load(f) or {}
+    except (json.JSONDecodeError, OSError) as exc:
+        log.warning("config.json okunamadı, varsayılanlara geri dönülüyor: %s", exc)
+        return {}
+
+
+_CONFIG = _read_config_file()
+
+
+def _setting(env_var: str, config_key: str, default: Optional[str]) -> Optional[str]:
+    """Bir ayarı önce ortam değişkeninden, yoksa config.json'dan, o da
+    yoksa verilen varsayılan değerden okur.
 
     config.json kullanmak, özellikle Windows başlangıcına (Görev
     Zamanlayıcı) eklerken işine yarar: ortam değişkeni her oturumda
-    yeniden ayarlanmak zorunda kalmadan, Client ID'yi bir kere dosyaya
-    yazman yeterli olur (bkz. windows_autostart/ ve README.md).
+    yeniden ayarlanmak zorunda kalmadan, ayarı bir kere dosyaya yazman
+    yeterli olur (bkz. windows_autostart/ ve README.md).
     """
-    env_value = os.environ.get("DISCORD_CLIENT_ID")
+    env_value = os.environ.get(env_var)
     if env_value:
         return env_value
+    config_value = _CONFIG.get(config_key)
+    if config_value:
+        return str(config_value)
+    return default
 
-    if os.path.exists(CONFIG_PATH):
-        try:
-            with open(CONFIG_PATH, "r", encoding="utf-8") as f:
-                data = json.load(f)
-            value = data.get("discord_client_id")
-            if value:
-                return str(value)
-        except (json.JSONDecodeError, OSError) as exc:
-            log.warning("config.json okunamadı, ortam değişkenine geri dönülüyor: %s", exc)
 
-    return PLACEHOLDER_CLIENT_ID
+def load_client_id() -> str:
+    return _setting("DISCORD_CLIENT_ID", "discord_client_id", PLACEHOLDER_CLIENT_ID)
 
 
 # Discord Developer Portal'da oluşturduğun uygulamanın Client ID'si.
@@ -221,15 +232,20 @@ def display_map_name(raw_name: Optional[str]) -> str:
 # `cs2-discord-rpc/assets/maps/<harita>.png` dosyaları, GitHub'ın ham (raw)
 # içerik adresi üzerinden doğrudan Discord'a veriliyor.
 #
-# Kendi fork'unda / başka bir repoda kullanıyorsan MAP_IMAGE_BASE_URL
-# ortam değişkenini kendi reponun raw URL'sine ayarlaman yeterli.
+# Kendi fork'unda / başka bir repoda ya da PR henüz main'e birleşmemişken
+# test ediyorsan MAP_IMAGE_BASE_URL ayarını (ortam değişkeni ya da
+# config.json'daki "map_image_base_url" alanı) kendi branch/repo raw
+# URL'ine ayarlaman yeterli. Aksi halde görseller "main" dalına birleşene
+# kadar Discord'da kırık görsel ("?") olarak görünür.
 # --------------------------------------------------------------------------
 
 DEFAULT_MAP_IMAGE_BASE_URL = (
     "https://raw.githubusercontent.com/openl32dll/openl32dll/main/"
     "cs2-discord-rpc/assets/maps"
 )
-MAP_IMAGE_BASE_URL = os.environ.get("MAP_IMAGE_BASE_URL", DEFAULT_MAP_IMAGE_BASE_URL).rstrip("/")
+MAP_IMAGE_BASE_URL = _setting(
+    "MAP_IMAGE_BASE_URL", "map_image_base_url", DEFAULT_MAP_IMAGE_BASE_URL
+).rstrip("/")
 
 FALLBACK_MAP_IMAGE_KEY = "cs2_logo"
 
