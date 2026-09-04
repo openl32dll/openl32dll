@@ -22,6 +22,12 @@ Kurulum:
 Kullanım:
     DISCORD_CLIENT_ID=xxxxxxxxxxxxxxxxxx python cs2_discord_rpc.py
 
+    Alternatif (özellikle Windows başlangıcına eklerken pratik):
+    `config.example.json` dosyasını `config.json` olarak kopyala, içine
+    Client ID'ni yaz; script ortam değişkeni yerine bu dosyayı okur.
+    Windows'ta oturum açılışında otomatik başlatmak için
+    windows_autostart/install_autostart.ps1 kullanılabilir.
+
 Discord Client ID nasıl alınır, GSI dosyası nereye konur -> README.md
 """
 
@@ -50,10 +56,48 @@ except ImportError as exc:  # pragma: no cover
 # Ayarlar
 # --------------------------------------------------------------------------
 
+logging.basicConfig(
+    level=logging.INFO,
+    format="[%(asctime)s] %(message)s",
+    datefmt="%H:%M:%S",
+)
+log = logging.getLogger("cs2-discord-rpc")
+
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+CONFIG_PATH = os.path.join(SCRIPT_DIR, "config.json")
+PLACEHOLDER_CLIENT_ID = "PUT_YOUR_DISCORD_CLIENT_ID_HERE"
+
+
+def load_client_id() -> str:
+    """Discord Client ID'sini önce ortam değişkeninden, yoksa yanındaki
+    config.json dosyasından okur.
+
+    config.json kullanmak, özellikle Windows başlangıcına (Görev
+    Zamanlayıcı) eklerken işine yarar: ortam değişkeni her oturumda
+    yeniden ayarlanmak zorunda kalmadan, Client ID'yi bir kere dosyaya
+    yazman yeterli olur (bkz. windows_autostart/ ve README.md).
+    """
+    env_value = os.environ.get("DISCORD_CLIENT_ID")
+    if env_value:
+        return env_value
+
+    if os.path.exists(CONFIG_PATH):
+        try:
+            with open(CONFIG_PATH, "r", encoding="utf-8") as f:
+                data = json.load(f)
+            value = data.get("discord_client_id")
+            if value:
+                return str(value)
+        except (json.JSONDecodeError, OSError) as exc:
+            log.warning("config.json okunamadı, ortam değişkenine geri dönülüyor: %s", exc)
+
+    return PLACEHOLDER_CLIENT_ID
+
+
 # Discord Developer Portal'da oluşturduğun uygulamanın Client ID'si.
 # https://discord.com/developers/applications -> New Application -> General
-# Ortam değişkeni olarak vermek istersen: DISCORD_CLIENT_ID
-DISCORD_CLIENT_ID = os.environ.get("DISCORD_CLIENT_ID", "PUT_YOUR_DISCORD_CLIENT_ID_HERE")
+# Ortam değişkeni (DISCORD_CLIENT_ID) veya config.json ile ayarlanabilir.
+DISCORD_CLIENT_ID = load_client_id()
 
 # CS2'nin GSI verisini göndereceği yerel adres/port.
 # gamestate_integration_discordrpc.cfg dosyasındaki "uri" ile eşleşmeli.
@@ -67,13 +111,6 @@ MIN_UPDATE_INTERVAL_SECONDS = 4.0
 # Oyuncudan hiç veri gelmezse bu süre sonunda durum temizlenir
 # (oyun kapatıldı / CS2'den çıkıldı olarak yorumlanır).
 STALE_TIMEOUT_SECONDS = 20.0
-
-logging.basicConfig(
-    level=logging.INFO,
-    format="[%(asctime)s] %(message)s",
-    datefmt="%H:%M:%S",
-)
-log = logging.getLogger("cs2-discord-rpc")
 
 
 # --------------------------------------------------------------------------

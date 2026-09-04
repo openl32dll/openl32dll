@@ -57,10 +57,11 @@ cd cs2-discord-rpc
 pip install -r requirements.txt
 ```
 
-### 4) Script'i çalıştır
+### 4) Client ID'ni kaydet
 
-Discord masaüstü uygulamasının açık olduğundan emin ol, sonra:
+İki seçeneğin var:
 
+**a) Tek seferlik / test için — ortam değişkeni:**
 ```bash
 # Windows (PowerShell)
 $env:DISCORD_CLIENT_ID="BURAYA_CLIENT_ID"; python cs2_discord_rpc.py
@@ -69,9 +70,59 @@ $env:DISCORD_CLIENT_ID="BURAYA_CLIENT_ID"; python cs2_discord_rpc.py
 DISCORD_CLIENT_ID=BURAYA_CLIENT_ID python cs2_discord_rpc.py
 ```
 
+**b) Kalıcı / otomatik başlatma için — config.json (önerilen):**
+```bash
+cd cs2-discord-rpc
+cp config.example.json config.json     # Windows: copy config.example.json config.json
+```
+`config.json` dosyasını aç, `discord_client_id` alanına Client ID'ni yaz.
+Bu dosya `.gitignore`'da olduğu için repoya gitmez. Script her çalıştığında
+otomatik olarak bu dosyayı okur — ortam değişkeni ayarlamana gerek kalmaz,
+bu yüzden Windows başlangıcına eklemek için idealdir (bkz. aşağıdaki bölüm).
+
+### 5) Script'i çalıştır
+
+Discord masaüstü uygulamasının açık olduğundan emin ol, sonra:
+
+```bash
+python cs2_discord_rpc.py
+```
+
 CS2'ye girip bir maça başladığında Discord profilinde harita, mod ve round
 bilgisi otomatik olarak görünmeye başlar. Ana menüdeyken veya oyundan
 çıktığında durum otomatik olarak güncellenir/temizlenir.
+
+## Windows'ta otomatik başlatma (PC/oturum açılışında)
+
+Her seferinde elle çalıştırmak istemiyorsan, Windows'ta oturum açtığın
+anda script'i arka planda (konsol penceresi açmadan) otomatik başlatan
+bir Görev Zamanlayıcı (Task Scheduler) görevi kurabilirsin:
+
+1. Önce yukarıdaki **4b) config.json** adımını tamamla (Client ID kaydedilmeden
+   script çalışmaz).
+2. PowerShell'i normal kullanıcı olarak aç (yönetici gerekmez):
+   ```powershell
+   cd cs2-discord-rpc
+   powershell -ExecutionPolicy Bypass -File windows_autostart\install_autostart.ps1
+   ```
+3. Bu kadar. Bir sonraki oturum açışında script otomatik başlayacak.
+   Hemen şimdi denemek istersen:
+   ```powershell
+   Start-ScheduledTask -TaskName "CS2DiscordRPC"
+   ```
+
+Kaldırmak istersen:
+```powershell
+powershell -ExecutionPolicy Bypass -File windows_autostart\uninstall_autostart.ps1
+```
+
+> **Not:** Görev "oturum açılışında" (`AtLogOn`) tetiklenir, "bilgisayar
+> açılışında" değil — çünkü script'in konuşacağı Discord masaüstü uygulaması
+> da zaten senin oturumun içinde çalışır, sistem açılışında değil. Discord
+> henüz tam açılmamış olsa bile script birkaç saniyede bir otomatik
+> yeniden dener, o yüzden sıralamayla ilgili bir şey yapmana gerek yok.
+> Görev, script çökerse de kendini birkaç kez yeniden başlatacak şekilde
+> ayarlıdır.
 
 ## Harita görselleri
 
