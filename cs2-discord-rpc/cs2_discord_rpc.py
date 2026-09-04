@@ -176,6 +176,38 @@ def display_map_name(raw_name: Optional[str]) -> str:
 
 
 # --------------------------------------------------------------------------
+# Harita görselleri
+#
+# Discord Rich Presence, Developer Portal'a önceden yüklenmiş bir "asset
+# key" yerine doğrudan bir görsel URL'si de kabul ediyor. Bu sayede her
+# harita için Discord'a ayrıca görsel yüklemene gerek kalmıyor: bu repodaki
+# `cs2-discord-rpc/assets/maps/<harita>.png` dosyaları, GitHub'ın ham (raw)
+# içerik adresi üzerinden doğrudan Discord'a veriliyor.
+#
+# Kendi fork'unda / başka bir repoda kullanıyorsan MAP_IMAGE_BASE_URL
+# ortam değişkenini kendi reponun raw URL'sine ayarlaman yeterli.
+# --------------------------------------------------------------------------
+
+DEFAULT_MAP_IMAGE_BASE_URL = (
+    "https://raw.githubusercontent.com/openl32dll/openl32dll/main/"
+    "cs2-discord-rpc/assets/maps"
+)
+MAP_IMAGE_BASE_URL = os.environ.get("MAP_IMAGE_BASE_URL", DEFAULT_MAP_IMAGE_BASE_URL).rstrip("/")
+
+FALLBACK_MAP_IMAGE_KEY = "cs2_logo"
+
+
+def map_image_url(raw_name: Optional[str]) -> str:
+    """GSI'dan gelen harita koduna karşılık gelen görselin URL'sini üretir.
+
+    Elimizde hazır görseli olmayan bir harita gelirse (yeni eklenen bir
+    harita, community server haritası vb.) genel CS2 logosuna düşer.
+    """
+    key = raw_name if raw_name in MAP_DISPLAY_NAMES else FALLBACK_MAP_IMAGE_KEY
+    return f"{MAP_IMAGE_BASE_URL}/{key}.png"
+
+
+# --------------------------------------------------------------------------
 # Paylaşılan durum: GSI sunucusu bu nesneyi günceller, sunum (presence)
 # döngüsü de buradan okuyarak Discord'a gönderir.
 # --------------------------------------------------------------------------
@@ -253,7 +285,7 @@ def build_presence_fields(payload: dict) -> Optional[dict]:
         return {
             "details": "Ana menüde geziniyor",
             "state": "Counter-Strike 2",
-            "large_image": "cs2_logo",
+            "large_image": map_image_url(None),
             "large_text": "Counter-Strike 2",
         }
 
@@ -296,12 +328,10 @@ def build_presence_fields(payload: dict) -> Optional[dict]:
         if round_info.get("bomb") == "planted":
             state_text += " · 💣 Bomba döşendi"
 
-    large_image = map_name_raw if map_name_raw else "cs2_logo"
-
     return {
         "details": details,
         "state": state_text,
-        "large_image": large_image,
+        "large_image": map_image_url(map_name_raw),
         "large_text": map_name,
     }
 
@@ -366,7 +396,7 @@ def main() -> None:
                 rpc.update(
                     details=fields["details"],
                     state=fields["state"],
-                    large_image=fields.get("large_image") or "cs2_logo",
+                    large_image=fields.get("large_image") or map_image_url(None),
                     large_text=fields.get("large_text") or "Counter-Strike 2",
                     start=int(start_time),
                 )

@@ -30,11 +30,13 @@ uygulama (Client ID) oluşturmanı ister:
    `Counter-Strike 2` koy.
 3. Sol menüden **OAuth2 / General** sayfasında görünen **Application ID**
    (Client ID) değerini kopyala.
-4. (İsteğe bağlı ama önerilir) **Rich Presence → Art Assets** kısmına harita
-   görselleri yükle. Görsellere haritanın GSI adıyla aynı anahtarı ver
-   (ör. `de_dust2`, `de_mirage`, `de_inferno`...) ve varsayılan için bir de
-   `cs2_logo` adında genel bir CS2 logosu ekle. Görsel eklemezsen Discord
-   büyük resmi boş gösterir, metinler yine de çalışır.
+
+Harita görselleri için Developer Portal'a ayrıca bir şey yüklemene gerek
+yok: `assets/maps/` klasöründeki küçük harita ikonları bu repodan doğrudan
+Discord'a "external image URL" olarak veriliyor (Discord Rich Presence,
+yüklenmiş bir asset key kadar dışarıdan bir görsel URL'sini de kabul
+ediyor). Yani script'i çalıştırır çalıştırmaz her harita için otomatik
+olarak görsel görünür.
 
 ### 2) GSI config dosyasını CS2'ye tanıt
 
@@ -70,6 +72,30 @@ DISCORD_CLIENT_ID=BURAYA_CLIENT_ID python cs2_discord_rpc.py
 CS2'ye girip bir maça başladığında Discord profilinde harita, mod ve round
 bilgisi otomatik olarak görünmeye başlar. Ana menüdeyken veya oyundan
 çıktığında durum otomatik olarak güncellenir/temizlenir.
+
+## Harita görselleri
+
+`assets/maps/` klasöründe her ana harita için (Dust II, Mirage, Inferno,
+Nuke, Overpass, Vertigo, Ancient, Anubis, Train, Cache, Office, Italy,
+Agency, Wingman haritaları, Aim Map) küçük birer PNG rozet + genel bir
+`cs2_logo.png` bulunuyor. Bunlar Valve'ın oyun içi ekran görüntüleri değil,
+bu repo için üretilmiş basit ikonlardır (telif sorunu yaşamamak için).
+
+- Script, GSI'dan gelen harita adını bu klasördeki dosya adlarıyla
+  eşleştirip şu adresten görseli çekiyor:
+  `https://raw.githubusercontent.com/openl32dll/openl32dll/main/cs2-discord-rpc/assets/maps/<harita>.png`
+  Bu adres, sadece bu değişiklik `main` dalına birleştikten (merge)
+  sonra çalışır; PR henüz birleşmediyse test için
+  `MAP_IMAGE_BASE_URL` ortam değişkenini kendi branch'ine
+  (`.../<branch-adı>/cs2-discord-rpc/assets/maps`) göre ayarlayabilirsin.
+- Elimizde ikonu olmayan bir harita gelirse (yeni çıkan bir harita ya da
+  community server haritası) otomatik olarak `cs2_logo.png`'ye düşer.
+- Kendi görsellerini (gerçek harita ekran görüntüsü gibi) kullanmak
+  istersen: `assets/maps/<harita_kodu>.png` dosyasını kendi görselinle
+  değiştirmen yeterli — kod tarafında hiçbir şey değiştirmene gerek yok.
+- Yeni bir harita eklemek / ikonları yeniden üretmek istersen:
+  `assets/generate_map_icons.py` script'ini (Pillow gerektirir) düzenleyip
+  tekrar çalıştırabilirsin.
 
 ## Desteklenen modlar
 
