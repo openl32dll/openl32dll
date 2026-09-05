@@ -126,32 +126,30 @@ powershell -ExecutionPolicy Bypass -File windows_autostart\uninstall_autostart.p
 
 ## Harita görselleri
 
+Discord Rich Presence'ta iki görsel alanı var: **büyük ana görsel** ve
+onun sağ alt köşesinde duran **küçük rozet**. Bu script'te:
+
+- **Büyük görsel** her zaman `assets/maps/cs2_logo.png` — sabit CS2 logosu.
+- **Küçük rozet** o an içinde bulunduğun haritayı gösterir
+  (`assets/maps/<harita_kodu>.png`).
+- Ana menüdeyken (henüz bir maçta değilken) sadece büyük CS2 logosu görünür,
+  küçük rozet olmaz.
+
 `assets/maps/` klasöründe her ana harita için (Dust II, Mirage, Inferno,
 Nuke, Overpass, Vertigo, Ancient, Anubis, Train, Cache, Office, Italy,
-Agency, Wingman haritaları, Aim Map) küçük birer PNG rozet + genel bir
-`cs2_logo.png` bulunuyor. Bunlar Valve'ın oyun içi ekran görüntüleri değil,
-bu repo için üretilmiş basit ikonlardır (telif sorunu yaşamamak için).
+Agency, Wingman haritaları, Aim Map) küçük birer PNG rozet + genel
+`cs2_logo.png` bulunuyor. Şu an bunlar bu repo için üretilmiş basit
+ikonlardır (bkz. aşağıdaki "Gerçek ekran görüntüsü" bölümü — kendi
+görsellerinle kolayca değiştirebilirsin).
 
 - Script, GSI'dan gelen harita adını bu klasördeki dosya adlarıyla
   eşleştirip şu adresten görseli çekiyor:
   `https://raw.githubusercontent.com/openl32dll/openl32dll/main/cs2-discord-rpc/assets/maps/<harita>.png`
-
-  > ⚠️ **Bu adres sadece bu değişiklik `main` dalına birleştikten (merge)
-  > sonra çalışır.** Birleşmeden önce Discord'da büyük görsel yerine
-  > kırık görsel ("?") görürsün — metinler (harita/mod/round) yine de
-  > doğru çalışır, sadece resim eksik kalır. PR henüz birleşmediyse
-  > `config.json`'a şunu ekleyerek kendi branch'ini gösterebilirsin:
-  > ```json
-  > {
-  >   "discord_client_id": "...",
-  >   "map_image_base_url": "https://raw.githubusercontent.com/openl32dll/openl32dll/claude/discord-cs2-game-status-0dszmz/cs2-discord-rpc/assets/maps"
-  > }
-  > ```
-  > (`MAP_IMAGE_BASE_URL` ortam değişkeni olarak da ayarlanabilir.) PR
-  > `main`'e birleşince bu satırı config.json'dan silebilirsin, varsayılan
-  > yeniden geçerli olur.
+  (Kendi fork'unda kullanıyorsan `config.json`'daki `map_image_base_url`
+  alanıyla ya da `MAP_IMAGE_BASE_URL` ortam değişkeniyle değiştirebilirsin.)
 - Elimizde ikonu olmayan bir harita gelirse (yeni çıkan bir harita ya da
-  community server haritası) otomatik olarak `cs2_logo.png`'ye düşer.
+  community server haritası) küçük rozet de otomatik olarak `cs2_logo.png`'ye
+  düşer.
 - Yeni bir harita eklemek / ikonları yeniden üretmek istersen:
   `assets/generate_map_icons.py` script'ini (Pillow gerektirir) düzenleyip
   tekrar çalıştırabilirsin.
