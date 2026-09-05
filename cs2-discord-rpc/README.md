@@ -31,12 +31,21 @@ uygulama (Client ID) oluşturmanı ister:
 3. Sol menüden **OAuth2 / General** sayfasında görünen **Application ID**
    (Client ID) değerini kopyala.
 
-Harita görselleri için Developer Portal'a ayrıca bir şey yüklemene gerek
-yok: `assets/maps/` klasöründeki küçük harita ikonları bu repodan doğrudan
-Discord'a "external image URL" olarak veriliyor (Discord Rich Presence,
-yüklenmiş bir asset key kadar dışarıdan bir görsel URL'sini de kabul
-ediyor). Yani script'i çalıştırır çalıştırmaz her harita için otomatik
-olarak görsel görünür.
+**Harita görsellerini de bu adımda yükle.** Aynı sayfada sol menüden
+**Rich Presence → Art Assets** kısmına git ve `cs2-discord-rpc/assets/maps/`
+klasöründeki her PNG'yi, dosya adıyla **aynı** anahtar (key) ismiyle yükle
+(uzantısız, hepsi küçük harf):
+
+```
+cs2_logo, de_dust2, de_mirage, de_inferno, de_nuke, de_overpass,
+de_vertigo, de_ancient, de_anubis, de_train, de_cache, cs_office,
+cs_italy, cs_agency, de_shortdust, de_lake, de_stmarc, de_grail, aim_map
+```
+
+Elinde gerçek ekran görüntüsü olmayan haritalar için (Wingman haritaları,
+Agency, Aim Map gibi) bu adımı atlayabilirsin — script otomatik olarak
+`cs2_logo`'ya düşer. Yeni bir görsel eklediğinde/değiştirdiğinde de aynı
+anahtar ismiyle **üzerine yükleyip** script'i yeniden başlatman yeterli.
 
 ### 2) GSI config dosyasını CS2'ye tanıt
 
@@ -142,13 +151,13 @@ Agency, Wingman haritaları, Aim Map) küçük birer PNG rozet + genel
 ikonlardır (bkz. aşağıdaki "Gerçek ekran görüntüsü" bölümü — kendi
 görsellerinle kolayca değiştirebilirsin).
 
-- Script, GSI'dan gelen harita adını bu klasördeki dosya adlarıyla
-  eşleştirip şu adresten görseli çekiyor:
-  `https://raw.githubusercontent.com/openl32dll/openl32dll/main/cs2-discord-rpc/assets/maps/<harita>.png`
-  (Kendi fork'unda kullanıyorsan `config.json`'daki `map_image_base_url`
-  alanıyla ya da `MAP_IMAGE_BASE_URL` ortam değişkeniyle değiştirebilirsin.)
+- Script, GSI'dan gelen harita adını (ör. `de_dust2`) doğrudan Discord
+  Developer Portal'a yüklediğin **Art Asset anahtarı** olarak gönderiyor —
+  bkz. yukarıdaki "1) Discord Uygulaması oluştur" adımı. Dış URL
+  kullanılmıyor; bu, klasik masaüstü Rich Presence ile en garantili
+  çalışan yöntem.
 - Elimizde ikonu olmayan bir harita gelirse (yeni çıkan bir harita ya da
-  community server haritası) küçük rozet de otomatik olarak `cs2_logo.png`'ye
+  community server haritası) küçük rozet de otomatik olarak `cs2_logo`'ya
   düşer.
 - Yeni bir harita eklemek / ikonları yeniden üretmek istersen:
   `assets/generate_map_icons.py` script'ini (Pillow gerektirir) düzenleyip

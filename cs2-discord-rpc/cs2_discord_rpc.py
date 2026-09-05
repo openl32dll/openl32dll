@@ -226,56 +226,37 @@ def display_map_name(raw_name: Optional[str]) -> str:
 # --------------------------------------------------------------------------
 # Harita görselleri
 #
-# Discord Rich Presence, Developer Portal'a önceden yüklenmiş bir "asset
-# key" yerine doğrudan bir görsel URL'si de kabul ediyor. Bu sayede her
-# harita için Discord'a ayrıca görsel yüklemene gerek kalmıyor: bu repodaki
-# `cs2-discord-rpc/assets/maps/<harita>.png` dosyaları, GitHub'ın ham (raw)
-# içerik adresi üzerinden doğrudan Discord'a veriliyor.
+# Discord Developer Portal'daki uygulamanın "Rich Presence -> Art Assets"
+# kısmına yüklediğin görsellerin ANAHTAR (key) isimlerini kullanıyoruz
+# (dış URL değil). Bu, klasik masaüstü Rich Presence (yerel IPC) ile en
+# garantili çalışan yöntem. Her harita için aşağıdaki isimlerle bir asset
+# yükle (uzantısız, hepsi küçük harf):
 #
-# Kendi fork'unda / başka bir repoda ya da PR henüz main'e birleşmemişken
-# test ediyorsan MAP_IMAGE_BASE_URL ayarını (ortam değişkeni ya da
-# config.json'daki "map_image_base_url" alanı) kendi branch/repo raw
-# URL'ine ayarlaman yeterli. Aksi halde görseller "main" dalına birleşene
-# kadar Discord'da kırık görsel ("?") olarak görünür.
+#   cs2_logo, de_dust2, de_mirage, de_inferno, de_nuke, de_overpass,
+#   de_vertigo, de_ancient, de_anubis, de_train, de_cache, cs_office,
+#   cs_italy, cs_agency, de_shortdust, de_lake, de_stmarc, de_grail, aim_map
+#
+# (Görsellerin kendisi bu repoda cs2-discord-rpc/assets/maps/ altında
+# hazır duruyor, oradan indirip Developer Portal'a yükleyebilirsin.)
 # --------------------------------------------------------------------------
-
-DEFAULT_MAP_IMAGE_BASE_URL = (
-    "https://raw.githubusercontent.com/openl32dll/openl32dll/main/"
-    "cs2-discord-rpc/assets/maps"
-)
-MAP_IMAGE_BASE_URL = _setting(
-    "MAP_IMAGE_BASE_URL", "map_image_base_url", DEFAULT_MAP_IMAGE_BASE_URL
-).rstrip("/")
 
 FALLBACK_MAP_IMAGE_KEY = "cs2_logo"
 
-# Discord, dış görsel URL'lerini kendi tarafında agresif şekilde önbelleğe
-# alıyor: bir URL'yi bir kez kırık/eski haliyle gördüyse, dosyanın içeriği
-# GitHub'da güncellenmiş olsa bile uzunca bir süre eski/varsayılan halini
-# göstermeye devam edebiliyor. Bunu aşmak için her URL'nin sonuna bir
-# "önbellek kırma" parametresi ekliyoruz: script her yeniden başladığında
-# bu değer değişir, böylece Discord URL'yi "yeni" sanıp görseli taze çeker.
-# Görselleri güncelleyip script'i yeniden başlattığında otomatik devreye
-# girer; istersen config.json'daki "map_image_version" alanıyla ya da
-# MAP_IMAGE_VERSION ortam değişkeniyle sabit bir değere de zorlayabilirsin.
-MAP_IMAGE_VERSION = _setting("MAP_IMAGE_VERSION", "map_image_version", str(int(time.time())))
 
-
-def map_image_url(raw_name: Optional[str]) -> str:
-    """GSI'dan gelen harita koduna karşılık gelen görselin URL'sini üretir.
+def map_image_key(raw_name: Optional[str]) -> str:
+    """GSI'dan gelen harita koduna karşılık gelen Art Asset anahtarını üretir.
 
     Elimizde hazır görseli olmayan bir harita gelirse (yeni eklenen bir
     harita, community server haritası vb.) genel CS2 logosuna düşer.
     """
-    key = raw_name if raw_name in MAP_DISPLAY_NAMES else FALLBACK_MAP_IMAGE_KEY
-    return f"{MAP_IMAGE_BASE_URL}/{key}.png?v={MAP_IMAGE_VERSION}"
+    return raw_name if raw_name in MAP_DISPLAY_NAMES else FALLBACK_MAP_IMAGE_KEY
 
 
 # Discord Rich Presence'ta iki görsel alanı var: büyük ana görsel
 # (large_image) ve onun sağ alt köşesinde duran küçük rozet (small_image).
 # Burada büyük görsel her zaman sabit CS2 logosu, küçük rozet ise o an
 # içinde bulunduğun haritayı gösteriyor.
-CS2_LOGO_IMAGE_URL = map_image_url(None)  # None -> her zaman cs2_logo'ya düşer
+CS2_LOGO_IMAGE_KEY = FALLBACK_MAP_IMAGE_KEY
 
 
 # --------------------------------------------------------------------------
@@ -357,7 +338,7 @@ def build_presence_fields(payload: dict) -> Optional[dict]:
         return {
             "details": "Ana menüde geziniyor",
             "state": "Counter-Strike 2",
-            "large_image": CS2_LOGO_IMAGE_URL,
+            "large_image": CS2_LOGO_IMAGE_KEY,
             "large_text": "Counter-Strike 2",
         }
 
@@ -403,9 +384,9 @@ def build_presence_fields(payload: dict) -> Optional[dict]:
     return {
         "details": details,
         "state": state_text,
-        "large_image": CS2_LOGO_IMAGE_URL,
+        "large_image": CS2_LOGO_IMAGE_KEY,
         "large_text": "Counter-Strike 2",
-        "small_image": map_image_url(map_name_raw),
+        "small_image": map_image_key(map_name_raw),
         "small_text": map_name,
     }
 
@@ -475,7 +456,7 @@ def main() -> None:
                 rpc.update(
                     details=fields["details"],
                     state=fields["state"],
-                    large_image=fields.get("large_image") or CS2_LOGO_IMAGE_URL,
+                    large_image=fields.get("large_image") or CS2_LOGO_IMAGE_KEY,
                     large_text=fields.get("large_text") or "Counter-Strike 2",
                     small_image=fields.get("small_image"),
                     small_text=fields.get("small_text"),
