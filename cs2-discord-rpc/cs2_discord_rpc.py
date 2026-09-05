@@ -260,6 +260,13 @@ def map_image_url(raw_name: Optional[str]) -> str:
     return f"{MAP_IMAGE_BASE_URL}/{key}.png"
 
 
+# Discord Rich Presence'ta iki görsel alanı var: büyük ana görsel
+# (large_image) ve onun sağ alt köşesinde duran küçük rozet (small_image).
+# Burada büyük görsel her zaman sabit CS2 logosu, küçük rozet ise o an
+# içinde bulunduğun haritayı gösteriyor.
+CS2_LOGO_IMAGE_URL = f"{MAP_IMAGE_BASE_URL}/{FALLBACK_MAP_IMAGE_KEY}.png"
+
+
 # --------------------------------------------------------------------------
 # Paylaşılan durum: GSI sunucusu bu nesneyi günceller, sunum (presence)
 # döngüsü de buradan okuyarak Discord'a gönderir.
@@ -334,11 +341,12 @@ def build_presence_fields(payload: dict) -> Optional[dict]:
 
     activity = player.get("activity")
     if activity is not None and activity != "playing":
-        # Ana menüde / metin girişinde -> oyun içi bilgi gösterecek bir şey yok.
+        # Ana menüde / metin girişinde -> henüz bir harita yok, sadece
+        # büyük CS2 logosu gösterilir (küçük harita rozeti olmadan).
         return {
             "details": "Ana menüde geziniyor",
             "state": "Counter-Strike 2",
-            "large_image": map_image_url(None),
+            "large_image": CS2_LOGO_IMAGE_URL,
             "large_text": "Counter-Strike 2",
         }
 
@@ -384,15 +392,22 @@ def build_presence_fields(payload: dict) -> Optional[dict]:
     return {
         "details": details,
         "state": state_text,
-        "large_image": map_image_url(map_name_raw),
-        "large_text": map_name,
+        "large_image": CS2_LOGO_IMAGE_URL,
+        "large_text": "Counter-Strike 2",
+        "small_image": map_image_url(map_name_raw),
+        "small_text": map_name,
     }
 
 
 def state_key(fields: Optional[dict]) -> tuple:
     if fields is None:
         return ()
-    return (fields.get("details"), fields.get("state"), fields.get("large_image"))
+    return (
+        fields.get("details"),
+        fields.get("state"),
+        fields.get("large_image"),
+        fields.get("small_image"),
+    )
 
 
 # --------------------------------------------------------------------------
@@ -449,8 +464,10 @@ def main() -> None:
                 rpc.update(
                     details=fields["details"],
                     state=fields["state"],
-                    large_image=fields.get("large_image") or map_image_url(None),
+                    large_image=fields.get("large_image") or CS2_LOGO_IMAGE_URL,
                     large_text=fields.get("large_text") or "Counter-Strike 2",
+                    small_image=fields.get("small_image"),
+                    small_text=fields.get("small_text"),
                     start=int(start_time),
                 )
                 log.info("Durum güncellendi: %s | %s", fields["details"], fields["state"])
