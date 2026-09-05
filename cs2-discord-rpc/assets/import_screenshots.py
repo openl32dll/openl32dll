@@ -41,15 +41,23 @@ from PIL import Image, ImageOps
 
 RAW_DIR = os.path.join(os.path.dirname(__file__), "screenshots_raw")
 OUT_DIR = os.path.join(os.path.dirname(__file__), "maps")
-TARGET_SIZE = (1024, 576)  # 16:9 - Discord Rich Presence görselleri için iyi çalışan oran
+TARGET_SIZE = (1024, 576)  # 16:9 - harita ekran görüntüleri için iyi çalışan oran
 VALID_EXTENSIONS = (".jpg", ".jpeg", ".png", ".webp")
 
+# cs2_logo, Discord'da her zaman büyük görsel olarak kullanılıyor ve
+# genelde kare/simetrik bir logo oluyor - onu 16:9'a zorla kırpmak
+# (özellikle kare bir logoyu) kafa/ayak gibi kritik kısımları kesip
+# atabilir. Bu yüzden logo için ayrı, kare bir hedef boyut kullanıyoruz.
+SPECIAL_TARGET_SIZES = {
+    "cs2_logo": (512, 512),
+}
 
-def process_one(src_path: str, out_path: str) -> None:
+
+def process_one(src_path: str, out_path: str, target_size: tuple[int, int]) -> None:
     img = Image.open(src_path).convert("RGB")
     # ImageOps.fit: hedef orana göre ortadan kırpıp yeniden boyutlandırır,
     # görüntü bozulmaz (stretch yapmaz).
-    fitted = ImageOps.fit(img, TARGET_SIZE, method=Image.LANCZOS)
+    fitted = ImageOps.fit(img, target_size, method=Image.LANCZOS)
     fitted.save(out_path, "PNG")
 
 
@@ -72,8 +80,9 @@ def main() -> None:
             continue
         src = os.path.join(RAW_DIR, filename)
         out = os.path.join(OUT_DIR, f"{name}.png")
-        process_one(src, out)
-        print(f"işlendi: {filename} -> {out}")
+        target_size = SPECIAL_TARGET_SIZES.get(name, TARGET_SIZE)
+        process_one(src, out, target_size)
+        print(f"işlendi: {filename} -> {out} ({target_size[0]}x{target_size[1]})")
         processed += 1
 
     if processed == 0:
