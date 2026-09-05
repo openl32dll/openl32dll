@@ -249,6 +249,17 @@ MAP_IMAGE_BASE_URL = _setting(
 
 FALLBACK_MAP_IMAGE_KEY = "cs2_logo"
 
+# Discord, dış görsel URL'lerini kendi tarafında agresif şekilde önbelleğe
+# alıyor: bir URL'yi bir kez kırık/eski haliyle gördüyse, dosyanın içeriği
+# GitHub'da güncellenmiş olsa bile uzunca bir süre eski/varsayılan halini
+# göstermeye devam edebiliyor. Bunu aşmak için her URL'nin sonuna bir
+# "önbellek kırma" parametresi ekliyoruz: script her yeniden başladığında
+# bu değer değişir, böylece Discord URL'yi "yeni" sanıp görseli taze çeker.
+# Görselleri güncelleyip script'i yeniden başlattığında otomatik devreye
+# girer; istersen config.json'daki "map_image_version" alanıyla ya da
+# MAP_IMAGE_VERSION ortam değişkeniyle sabit bir değere de zorlayabilirsin.
+MAP_IMAGE_VERSION = _setting("MAP_IMAGE_VERSION", "map_image_version", str(int(time.time())))
+
 
 def map_image_url(raw_name: Optional[str]) -> str:
     """GSI'dan gelen harita koduna karşılık gelen görselin URL'sini üretir.
@@ -257,14 +268,14 @@ def map_image_url(raw_name: Optional[str]) -> str:
     harita, community server haritası vb.) genel CS2 logosuna düşer.
     """
     key = raw_name if raw_name in MAP_DISPLAY_NAMES else FALLBACK_MAP_IMAGE_KEY
-    return f"{MAP_IMAGE_BASE_URL}/{key}.png"
+    return f"{MAP_IMAGE_BASE_URL}/{key}.png?v={MAP_IMAGE_VERSION}"
 
 
 # Discord Rich Presence'ta iki görsel alanı var: büyük ana görsel
 # (large_image) ve onun sağ alt köşesinde duran küçük rozet (small_image).
 # Burada büyük görsel her zaman sabit CS2 logosu, küçük rozet ise o an
 # içinde bulunduğun haritayı gösteriyor.
-CS2_LOGO_IMAGE_URL = f"{MAP_IMAGE_BASE_URL}/{FALLBACK_MAP_IMAGE_KEY}.png"
+CS2_LOGO_IMAGE_URL = map_image_url(None)  # None -> her zaman cs2_logo'ya düşer
 
 
 # --------------------------------------------------------------------------
