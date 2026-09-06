@@ -6,7 +6,7 @@
 </p>
 
 ### 🤖 Otomatik Profil Durumu
-- 🕒 **Son Senkronizasyon:** 06/09/2026 13:31:48
+- 🕒 **Son Senkronizasyon:** 06/09/2026 13:56:22
 - 💬 **Günün Sözü:** Sistemler uyur, kodlar asla! 🛠️
 
 ### 🛠️ Kullandığım Teknolojiler
@@ -24,7 +24,7 @@
 ### 🎮 CS2 Discord Rich Presence
 Counter-Strike 2 oynarken Discord'da sadece "oynuyor" değil; hangi haritada,
 hangi modda (Rekabetçi/Premier, Yoldaş, Basit, Deathmatch, Silah Yarışı vb.)
-ve kaçıncı roundda olduğunu gösteren araç: [`cs2-discord-rpc/`](./cs2-discord-rpc)
+ve kaçıncı roundda olduğunu gösteren araç: [`cs2-discord-rpc`](https://github.com/openl32dll/cs2-discord-rpc)
 
 ---
 *Bu profil sayfası bir Python scripti tarafından otomatik olarak yönetilmektedir.*
