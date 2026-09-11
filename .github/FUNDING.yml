@@ -1,0 +1,10 @@
+# Bu dosya, profildeki/repolardaki "Sponsor" butonunu etkinleştirir.
+# GitHub Sponsors'a kayıtlı değilsen buton görünmez; kayıt için:
+# https://github.com/sponsors
+github: [openl32dll]
+
+# Başka bir destek platformun varsa (Ko-fi, Buy Me a Coffee, Patreon...)
+# aşağıdaki satırlardan ilgilisini açıp kendi kullanıcı adınla doldurabilirsin:
+# ko_fi: kullanici_adin
+# buy_me_a_coffee: kullanici_adin
+# patreon: kullanici_adin
