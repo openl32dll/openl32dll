@@ -34,8 +34,9 @@ gösteren bir araç.
 ## 💼 Freelance / iş birliği
 
 Küçük ölçekli Python otomasyon araçları, masaüstü entegrasyonlar ve benzeri
-projeler için iş birliğine açığım. Bir iş teklifin varsa üstteki projelerden
-birine issue açarak ya da GitHub profilimden ulaşabilirsin.
+projeler için iş birliğine açığım. Bir iş teklifin varsa:
+
+📧 **openl32dll.dev@gmail.com**
 
 ## ☕ Desteğin işime yarar
 
