@@ -22,4 +22,42 @@ document.addEventListener("DOMContentLoaded", function () {
   if (year) {
     year.textContent = new Date().getFullYear();
   }
+
+  var contactForm = document.getElementById("contact-form");
+  var status = document.getElementById("form-status");
+
+  if (contactForm && status) {
+    contactForm.addEventListener("submit", function (event) {
+      event.preventDefault();
+
+      var submitBtn = contactForm.querySelector("button[type=submit]");
+      submitBtn.disabled = true;
+      submitBtn.textContent = "Gönderiliyor...";
+      status.style.color = "";
+      status.textContent = "Mesajın gönderiliyor...";
+
+      fetch(contactForm.action, {
+        method: "POST",
+        body: new FormData(contactForm),
+        headers: { Accept: "application/json" },
+      })
+        .then(function (response) {
+          if (response.ok) {
+            contactForm.reset();
+            status.style.color = "var(--accent-3)";
+            status.textContent = "Teşekkürler! Mesajın iletildi, en kısa sürede dönüş yapacağım.";
+          } else {
+            throw new Error("Gönderim başarısız");
+          }
+        })
+        .catch(function () {
+          status.style.color = "var(--danger)";
+          status.textContent = "Mesaj gönderilemedi. Doğrudan openl32dll.dev@gmail.com adresine yazabilirsin.";
+        })
+        .finally(function () {
+          submitBtn.disabled = false;
+          submitBtn.textContent = "Mesajı Gönder";
+        });
+    });
+  }
 });

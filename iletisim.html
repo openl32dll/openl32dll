@@ -82,7 +82,7 @@
       </div>
     </div>
 
-    <form class="contact-form" action="mailto:openl32dll.dev@gmail.com" method="post" enctype="text/plain">
+    <form class="contact-form" id="contact-form" action="https://formspree.io/f/mwlpprye" method="POST">
       <div class="form-row">
         <div class="field">
           <label for="name">Ad Soyad</label>
@@ -110,8 +110,10 @@
         <textarea id="message" name="message" placeholder="Projeni kısaca anlat..." required></textarea>
       </div>
 
+      <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off" />
+
       <button type="submit" class="btn btn-primary">Mesajı Gönder</button>
-      <span class="form-note">Gönder'e bastığında varsayılan e-posta uygulaman açılır ve mesajın openl32dll.dev@gmail.com adresine iletilir.</span>
+      <span class="form-note" id="form-status">Mesajın Formspree üzerinden HTTPS ile güvenli şekilde openl32dll.dev@gmail.com adresine iletilir.</span>
     </form>
   </div>
 </section>
