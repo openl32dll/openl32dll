@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>İletişim — openl32dll</title>
+<meta name="description" content="Proje teklifin veya sorunun mu var? openl32dll ile e-posta veya GitHub üzerinden iletişime geç." />
+<link rel="icon" href="data:,">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css" />
+</head>
+<body>
+
+<nav class="nav">
+  <div class="container">
+    <a href="index.html" class="brand">
+      <span class="brand-mark">ol</span>
+      openl32dll
+    </a>
+    <button class="nav-toggle" aria-label="Menüyü aç" aria-expanded="false">☰</button>
+    <div class="nav-links">
+      <a href="index.html">Ana Sayfa</a>
+      <a href="hakkimizda.html">Hakkımızda</a>
+      <a href="index.html#portfoy">Portföy</a>
+      <a href="github.html">GitHub</a>
+      <a href="iletisim.html" class="active">İletişim</a>
+      <a href="iletisim.html" class="btn btn-primary nav-cta">İletişime Geç</a>
+    </div>
+  </div>
+</nav>
+
+<header class="page-header">
+  <div class="container">
+    <span class="eyebrow">İletişim</span>
+    <h1>Projeni konuşalım.</h1>
+    <p>Discord botu, uygulama, web sitesi veya B2B çözüm fikrin var mı? Aşağıdaki kanallardan
+       bana ulaşabilir ya da formu doldurabilirsin — dönüş yaparım.</p>
+  </div>
+</header>
+
+<section class="section" style="border-bottom:none;">
+  <div class="container contact-grid">
+    <div>
+      <div class="contact-card">
+        <div class="service-icon">📧</div>
+        <div>
+          <strong>E-posta</strong>
+          <span>openl32dll.dev@gmail.com</span>
+        </div>
+      </div>
+      <div class="contact-card">
+        <div class="service-icon">🐙</div>
+        <div>
+          <strong>GitHub</strong>
+          <span>github.com/openl32dll</span>
+        </div>
+      </div>
+      <div class="contact-card">
+        <div class="service-icon">⏱️</div>
+        <div>
+          <strong>Yanıt Süresi</strong>
+          <span>Genellikle 24-48 saat içinde</span>
+        </div>
+      </div>
+      <div class="contact-card">
+        <div class="service-icon">💼</div>
+        <div>
+          <strong>Uygunluk</strong>
+          <span>Küçük/orta ölçekli projeler için müsait</span>
+        </div>
+      </div>
+
+      <div style="margin-top:24px;">
+        <h2 style="font-size:18px;margin-bottom:10px;">Hangi konularda yazabilirsin?</h2>
+        <div class="skills-list">
+          <span class="tag">🤖 Discord Bot</span>
+          <span class="tag">🧩 Uygulama Geliştirme</span>
+          <span class="tag">🌐 Web Sitesi</span>
+          <span class="tag">📈 B2B Çözüm</span>
+        </div>
+      </div>
+    </div>
+
+    <form class="contact-form" action="mailto:openl32dll.dev@gmail.com" method="post" enctype="text/plain">
+      <div class="form-row">
+        <div class="field">
+          <label for="name">Ad Soyad</label>
+          <input id="name" name="name" type="text" placeholder="Adın Soyadın" required />
+        </div>
+        <div class="field">
+          <label for="email">E-posta</label>
+          <input id="email" name="email" type="email" placeholder="ornek@mail.com" required />
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="topic">Hizmet Alanı</label>
+        <select id="topic" name="topic">
+          <option>Discord Bot Geliştirme</option>
+          <option>Yazılım / Uygulama Geliştirme</option>
+          <option>Web Sitesi Kurulumu</option>
+          <option>B2B Çözümler</option>
+          <option>Diğer</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label for="message">Mesajın</label>
+        <textarea id="message" name="message" placeholder="Projeni kısaca anlat..." required></textarea>
+      </div>
+
+      <button type="submit" class="btn btn-primary">Mesajı Gönder</button>
+      <span class="form-note">Gönder'e bastığında varsayılan e-posta uygulaman açılır ve mesajın openl32dll.dev@gmail.com adresine iletilir.</span>
+    </form>
+  </div>
+</section>
+
+<footer>
+  <div class="container footer-grid">
+    <span class="copy">© <span data-year></span> openl32dll — Tüm hakları saklıdır.</span>
+    <div class="footer-links">
+      <a href="index.html">Ana Sayfa</a>
+      <a href="hakkimizda.html">Hakkımızda</a>
+      <a href="github.html">GitHub</a>
+      <a href="iletisim.html">İletişim</a>
+      <a href="https://github.com/openl32dll" target="_blank" rel="noopener">github.com/openl32dll</a>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/js/main.js"></script>
+</body>
+</html>
